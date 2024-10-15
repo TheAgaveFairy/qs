@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+#include <omp.h>
+#include <time.h>
+
+#include "quicksort.h"
+
+#define ARRAY_SIZE (INT_MAX / 16) //(INT_MAX / 2) smaller for testing
+#define DEBUG 0 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
+
+
+int main(int argc, char * argv[]){
+	int *test_array = malloc(sizeof(int) * ARRAY_SIZE);
+	if(!test_array){
+		fprintf(stderr, "Allocation failed. Exiting!");
+		return EXIT_FAILURE;
+	}
+
+	int num_threads = getNumThreads(DEBUG);
+	omp_set_num_threads(num_threads);
+
+	double start_time = omp_get_wtime();
+
+	#pragma omp parallel
+	{	
+		unsigned int seed = time(NULL) ^ omp_get_thread_num();
+		int i;
+		#pragma omp for private(i)
+		for(i = 0; i < ARRAY_SIZE; i++){
+			test_array[i] = rand_r(&seed); // can %100 for example to make it human readable during testing
+		}
+	}
+
+    double qs_begin_time = omp_get_wtime();
+
+    //printArray(test_array, ARRAY_SIZE);
+    quicksort(test_array, ARRAY_SIZE);
+    //printArray(test_array, ARRAY_SIZE);
+
+	double end_time = omp_get_wtime();
+    if(DEBUG){
+	    printf("Time for arraygen:\t%lf\nTime for quicksort:\t%lfs\nTotal time:\t\t%lf\n", qs_begin_time-start_time, end_time-qs_begin_time, end_time-start_time);
+	} else {
+        printf("%d, %d, %lf, %lf, %lf\n", num_threads, ARRAY_SIZE, qs_begin_time-start_time, end_time-qs_begin_time, end_time-start_time);
+
+    }
+	free(test_array);
+	return EXIT_SUCCESS;
+}
+
+/* taken from Kevin Browne github.com/portfoliocourses/c-example-code/ */
+void swap(int *x, int *y){
+	int temp = *x;
+	*x = *y;
+	*y = temp;
+}
+void quicksort(int array[], int length){
+    srand(time(NULL)); //could also manually set seed for reproducability
+    quicksort_recursion(array, 0, length-1);
+}
+void quicksort_recursion(int array[], int low, int high){
+    if(low < high){
+		int pivot_index = partition(array, low, high);
+		quicksort_recursion(array, low, pivot_index - 1);
+		quicksort_recursion(array, pivot_index +1, high);		
+	}
+}
+int partition(int array[], int low, int high){
+	int pivot_index = low + (rand() % (high-low)); //get a random index to use as pivot
+	if(pivot_index != high){
+		swap(&array[pivot_index], &array[high]);
+	}
+	
+    int pivot_value = array[high];
+	
+	int i = low;
+    int j;
+	for (j = low; j < high; j++){
+		if(array[j] <= pivot_value){
+			swap(&array[i], &array[j]);
+			i++;
+		}
+	}
+	swap(&array[i], &array[high]);
+	return i;
+}
+/* end copied code snippet */
