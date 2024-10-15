@@ -11,6 +11,8 @@
 #define DEBUG 1 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
 #define CUTOFF 1000 //Claude suggested parameter
 
+int d_max = 0;
+
 int main(int argc, char * argv[]){
    	int num_threads = getNumThreads(DEBUG);
 	omp_set_num_threads(num_threads);
@@ -33,6 +35,7 @@ int main(int argc, char * argv[]){
 	} else {
         printf("%d, %d, %lf, %lf, %lf\n", num_threads, ARRAY_SIZE, qs_begin_time-start_time, end_time-qs_begin_time, end_time-start_time);
     }
+    printf("%d dmax\n", d_max);
 	free(test_array);
 	return EXIT_SUCCESS;
 }
@@ -54,6 +57,7 @@ void quicksort(int array[], int length){
     }
 }
 void quicksort_recursion(int array[], int low, int high, int depth){
+    d_max = depth > d_max? depth : d_max;
     if(low < high){
         if(depth > CUTOFF){ //do sequential
 		    int pivot_index = partition(array, low, high);
