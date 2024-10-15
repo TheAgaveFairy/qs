@@ -18,12 +18,10 @@ int main(int argc, char * argv[]){
 	}
 
 	int num_threads = getNumThreads(DEBUG);
-	omp_set_num_threads(num_threads);
 
-	double start_time = omp_get_wtime();
-
-	#pragma omp parallel
-	{	
+    /* get time here*/
+    #pragma omp parallel
+    {
 		unsigned int seed = time(NULL) ^ omp_get_thread_num();
 		int i;
 		#pragma omp for private(i)
@@ -32,19 +30,20 @@ int main(int argc, char * argv[]){
 		}
 	}
 
-    double qs_begin_time = omp_get_wtime();
+    /* get time here*/
 
     //printArray(test_array, ARRAY_SIZE);
     quicksort(test_array, ARRAY_SIZE);
     //printArray(test_array, ARRAY_SIZE);
 
-	double end_time = omp_get_wtime();
+    /* get time here*/
+    /*
     if(DEBUG){
 	    printf("Time for arraygen:\t%lf\nTime for quicksort:\t%lfs\nTotal time:\t\t%lf\n", qs_begin_time-start_time, end_time-qs_begin_time, end_time-start_time);
 	} else {
         printf("%d, %d, %lf, %lf, %lf\n", num_threads, ARRAY_SIZE, qs_begin_time-start_time, end_time-qs_begin_time, end_time-start_time);
 
-    }
+    }*/
 	free(test_array);
 	return EXIT_SUCCESS;
 }
