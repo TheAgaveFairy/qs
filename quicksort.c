@@ -7,6 +7,8 @@
 #include "quicksort.h"
 
 #define ARRAY_SIZE (INT_MAX / 16) //(INT_MAX / 2) smaller for testing
+#define DEBUG 0 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
+
 
 int main(int argc, char * argv[]){
 	int *test_array = malloc(sizeof(int) * ARRAY_SIZE);
@@ -15,7 +17,7 @@ int main(int argc, char * argv[]){
 		return EXIT_FAILURE;
 	}
 
-	int num_threads = getNumThreads();
+	int num_threads = getNumThreads(DEBUG);
 	omp_set_num_threads(num_threads);
 
 	double start_time = omp_get_wtime();
@@ -29,13 +31,20 @@ int main(int argc, char * argv[]){
 			test_array[i] = rand_r(&seed); // can %100 for example to make it human readable during testing
 		}
 	}
+
+    double qs_begin_time = omp_get_wtime();
+
     //printArray(test_array, ARRAY_SIZE);
     quicksort(test_array, ARRAY_SIZE);
     //printArray(test_array, ARRAY_SIZE);
 
 	double end_time = omp_get_wtime();
-	printf("Time taken: %lfs\n", end_time-start_time);
-	
+    if(DEBUG){
+	    printf("Time for arraygen:\t%lf\nTime for quicksort:\t%lfs\nTotal time:\t\t%lf\n", qs_begin_time-start_time, end_time-qs_begin_time, end_time-start_time);
+	} else {
+        printf("%d, %d, %lf, %lf, %lf\n", num_threads, ARRAY_SIZE, qs_begin_time-start_time, end_time-qs_begin_time, end_time-start_time);
+
+    }
 	free(test_array);
 	return EXIT_SUCCESS;
 }

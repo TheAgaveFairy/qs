@@ -9,15 +9,17 @@ void quicksort(int array[], int length);
 void quicksort_recursion(int array[], int low, int high);
 int partition(int array[], int low, int high);
 
-int getNumThreads();
+int getNumThreads(int);
 int getInt();
 void printArray(int*, int);
 
-int getNumThreads(){	
-	printf("How many threads do you want? (1 <= p <= 12): ");
-	int num_threads = getInt();
+int getNumThreads(int debug){
+    if(debug){	
+	    printf("How many threads do you want? (1 <= p <= 12): ");
+	}
+    int num_threads = getInt();
 	if (num_threads < 1 || num_threads > 12){
-		return getNumThreads();
+		return getNumThreads(debug);
 	}
 	return num_threads;
 }
