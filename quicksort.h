@@ -11,6 +11,7 @@ int partition(int array[], int low, int high);
 
 int getNumThreads();
 int getInt();
+void printArray(int*, int);
 
 int getNumThreads(){	
 	printf("How many threads do you want? (1 <= p <= 12): ");
@@ -34,5 +35,12 @@ int getInt(){
 	}
 	return -1;
 }
-
+void printArray(int *arr, int size){
+    printf("Printing your array:\n");
+    int i;
+    for(i = 0; i < size; i++){
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
 #endif
