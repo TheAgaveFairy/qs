@@ -15,3 +15,4 @@ All you need to do is decide if you want to run it manually (in which case you s
 ### This is a Claude household
 
 No OpenAI found here!
+*Otto likes ChatGPT
