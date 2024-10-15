@@ -9,16 +9,10 @@
 
 #define ARRAY_SIZE (INT_MAX / 16) //(INT_MAX / 2) smaller for testing
 #define DEBUG 1 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
-
+#define CUTOFF 1000 //Claude suggested parameter
 
 int main(int argc, char * argv[]){
-    /*malloc(sizeof(int) * ARRAY_SIZE);
-	if(!test_array){
-		fprintf(stderr, "Allocation failed. Exiting!");
-		return EXIT_FAILURE;
-	}*/
-
-	int num_threads = getNumThreads(DEBUG);
+   	int num_threads = getNumThreads(DEBUG);
 	omp_set_num_threads(num_threads);
 
 	double start_time = omp_get_wtime();
@@ -27,17 +21,6 @@ int main(int argc, char * argv[]){
 		fprintf(stderr, "Allocation failed. Exiting!");
 		return EXIT_FAILURE;
 	}
-    /*
-	#pragma omp parallel
-	{	
-		unsigned int seed = time(NULL) ^ omp_get_thread_num();
-		int i;
-		#pragma omp for private(i)
-		for(i = 0; i < ARRAY_SIZE; i++){
-			test_array[i] = rand_r(&seed); // can %100 for example to make it human readable during testing
-		}
-	}*/
-
     double qs_begin_time = omp_get_wtime();
 
     //printArray(test_array, ARRAY_SIZE);
@@ -49,7 +32,6 @@ int main(int argc, char * argv[]){
 	    printf("Time for arraygen:\t%lf\nTime for quicksort:\t%lfs\nTotal time:\t\t%lf\n", qs_begin_time-start_time, end_time-qs_begin_time, end_time-start_time);
 	} else {
         printf("%d, %d, %lf, %lf, %lf\n", num_threads, ARRAY_SIZE, qs_begin_time-start_time, end_time-qs_begin_time, end_time-start_time);
-
     }
 	free(test_array);
 	return EXIT_SUCCESS;
@@ -63,14 +45,32 @@ void swap(int *x, int *y){
 }
 void quicksort(int array[], int length){
     srand(time(NULL)); //could also manually set seed for reproducability
-    quicksort_recursion(array, 0, length-1);
+    #pragma omp parallel
+    {        
+        #pragma omp single nowait
+        {
+            quicksort_recursion(array, 0, length-1,0);
+        }    
+    }
 }
-void quicksort_recursion(int array[], int low, int high){
+void quicksort_recursion(int array[], int low, int high, int depth){
     if(low < high){
-		int pivot_index = partition(array, low, high);
-		quicksort_recursion(array, low, pivot_index - 1);
-		quicksort_recursion(array, pivot_index +1, high);		
-	}
+        if(depth > CUTOFF){ //do sequential
+		    int pivot_index = partition(array, low, high);
+		    quicksort_recursion(array, low, pivot_index - 1, depth+1);
+		    quicksort_recursion(array, pivot_index +1, high, depth+1);		
+	    } else {
+		    int pivot_index = partition(array, low, high);
+            #pragma omp task
+            {
+		        quicksort_recursion(array, low, pivot_index - 1, depth + 1);
+		    }
+            #pragma omp task
+            {
+                quicksort_recursion(array, pivot_index+1, high, depth + 1);
+            }
+        }
+    }
 }
 int partition(int array[], int low, int high){
 	int pivot_index = low + (rand() % (high-low)); //get a random index to use as pivot

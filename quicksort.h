@@ -6,7 +6,7 @@
 
 void swap(int *x, int *y);
 void quicksort(int array[], int length);
-void quicksort_recursion(int array[], int low, int high);
+void quicksort_recursion(int array[], int low, int high, int depth);
 int partition(int array[], int low, int high);
 
 int getNumThreads(int);
