@@ -1,5 +1,5 @@
-#ifndef QUICKSORT_H
-#define QUICKSORT_H
+#ifndef QUICKSORT_P_H
+#define QUICKSORT_P_H
 
 #include <stdlib.h>
 #include <string.h>
