@@ -4,7 +4,7 @@
 #include <omp.h>
 #include <time.h>
 
-#include "quicksort.h"
+#include "quicksort_p.h"
 
 #define ARRAY_SIZE (INT_MAX / 16) //(INT_MAX / 2) smaller for testing
 #define DEBUG 0 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
