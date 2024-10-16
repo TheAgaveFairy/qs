@@ -9,8 +9,11 @@
 
 #define ARRAY_SIZE (INT_MAX / 16) //(INT_MAX / 2) smaller for testing
 #define DEBUG 1 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
-#define CUTOFF 12
+#define CUTOFF 1000
+#define MAX_THREADS 20 
 
+pthread_mutex_t thread_count_mutex = PTHREAD_MUTEX_INITIALIZER;
+int thread_count = 1; // Start with the main thread
 
 int main(int argc, char * argv[]){
 	int *array = malloc(sizeof(int) * ARRAY_SIZE);
@@ -42,20 +45,28 @@ int main(int argc, char * argv[]){
     clock_t end = clock();
     double cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 
-    printf("Sorting completed in %f seconds\n", cpu_time_used);
+    if(DEBUG) printf("Sorting completed in %f seconds\n", cpu_time_used);
 
     // Verify sorting (check first few and last few elements)
-    printf("First few elements: ");
-    for (int i = 0; i < 5 && i < ARRAY_SIZE; i++) {
-        printf("%d ", array[i]);
-    }
-    printf("...\n");
+	if(DEBUG){
+		printf("First few elements: ");
+		for (int i = 0; i < 5 && i < ARRAY_SIZE; i++) {
+			printf("%d ", array[i]);
+		}
+		printf("...\n");
 
-    printf("Last few elements: ");
-    for (int i = ARRAY_SIZE - 5; i < ARRAY_SIZE; i++) {
-        printf("%d ", array[i]);
-    }
-    printf("\n");
+		printf("Last few elements: ");
+		for (int i = ARRAY_SIZE - 5; i < ARRAY_SIZE; i++) {
+			printf("%d ", array[i]);
+		}
+		printf("\n");
+	}
+
+	if(DEBUG) {
+		int check = checkOnlyIncreasing(array, ARRAY_SIZE);
+		if(check == 1) printf("Successfully sorted!!!");
+		else printf("Not Successfully sorted!!!");
+	}
 
     free(array);
     return 0;
@@ -74,14 +85,36 @@ void *parallel_quicksort(void *arg) {
             int pivot = partition(arr, low, high);
 
             pthread_t left_thread, right_thread;
-            SortParams left_params = {arr, low, pivot - 1};
+			SortParams left_params = {arr, low, pivot - 1};
             SortParams right_params = {arr, pivot + 1, high};
 
-            pthread_create(&left_thread, NULL, parallel_quicksort, &left_params);
-            pthread_create(&right_thread, NULL, parallel_quicksort, &right_params);
+            pthread_mutex_lock(&thread_count_mutex);
+            if (thread_count >= MAX_THREADS) {
+                // Cannot create new threads, unlock mutex
+                pthread_mutex_unlock(&thread_count_mutex);
 
-            pthread_join(left_thread, NULL);
-            pthread_join(right_thread, NULL);
+                // Use sequential quicksort on both halves
+                quicksort(arr, low, pivot - 1);
+                quicksort(arr, pivot + 1, high);
+            } else {
+                // Increment thread_count
+                thread_count += 2;
+                pthread_mutex_unlock(&thread_count_mutex);
+
+                // Create child threads
+                pthread_create(&left_thread, NULL, parallel_quicksort, &left_params);
+                pthread_create(&right_thread, NULL, parallel_quicksort, &right_params);
+
+                // Wait for child threads to finish
+                pthread_join(left_thread, NULL);
+                pthread_join(right_thread, NULL);
+
+                // Decrement thread_count
+                pthread_mutex_lock(&thread_count_mutex);
+                thread_count -= 2;
+                pthread_mutex_unlock(&thread_count_mutex);
+            }
+
         }
     }
 
@@ -114,4 +147,16 @@ void swap(int* a, int* b) {
     int t = *a;
     *a = *b;
     *b = t;
+}
+
+//returns 1 if only increasing, returns 0 if not only increasing
+int checkOnlyIncreasing(int *arr, int size){
+	
+	for(int i = 1; i < size; i++){
+		if(arr[i - 1] > arr[i]){
+			return 0;
+		}
+	}
+	return 1;
+
 }
