@@ -1,39 +1,46 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <limits.h>
 #include <pthread.h>
 #include <time.h>
-#include <sys/time.h>
-#include <math.h>
-#include "quicksort_p.h"
 
-#define ARRAY_SIZE (INT_MAX / 16) //(INT_MAX / 2) smaller for testing
-#define DEBUG 1 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
-#define CUTOFF 12
+#define MAX_THREADS 8
+#define CUTOFF 1000
 
+typedef struct {
+    int *array;
+    int low;
+    int high;
+} SortParams;
 
-int main(int argc, char * argv[]){
-	int *array = malloc(sizeof(int) * ARRAY_SIZE);
+void quicksort(int arr[], int low, int high);
+void *parallel_quicksort(void *arg);
+int partition(int arr[], int low, int high);
+void swap(int* a, int* b);
 
-	if(!array){
-		fprintf(stderr, "Allocation failed. Exiting!");
-		return EXIT_FAILURE;
-	}
-
-	if(DEBUG) printf("Initializing Array\n");
-	srand(time(NULL));
-    for (int i = 0; i < ARRAY_SIZE; i++) {
-        array[i] = rand();
+int main() {
+    int length = 10000000;  // 10 million elements
+    int *array = malloc(sizeof(int) * length);
+    
+    if (array == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        return 1;
     }
-	if(DEBUG) printf("Array Initialized\n");
 
-	clock_t start = clock();
+    // Initialize array with random values
+    srand(time(NULL));
+    for (int i = 0; i < length; i++) {
+        array[i] = rand() % length;
+    }
+
+    printf("Array initialized. Starting sort...\n");
+
+    clock_t start = clock();
 
     // Create initial sorting task
     SortParams *params = malloc(sizeof(SortParams));
     params->array = array;
     params->low = 0;
-    params->high = ARRAY_SIZE - 1;
+    params->high = length - 1;
 
     pthread_t initial_thread;
     pthread_create(&initial_thread, NULL, parallel_quicksort, params);
@@ -46,13 +53,13 @@ int main(int argc, char * argv[]){
 
     // Verify sorting (check first few and last few elements)
     printf("First few elements: ");
-    for (int i = 0; i < 5 && i < ARRAY_SIZE; i++) {
+    for (int i = 0; i < 5 && i < length; i++) {
         printf("%d ", array[i]);
     }
     printf("...\n");
 
     printf("Last few elements: ");
-    for (int i = ARRAY_SIZE - 5; i < ARRAY_SIZE; i++) {
+    for (int i = length - 5; i < length; i++) {
         printf("%d ", array[i]);
     }
     printf("\n");
@@ -85,6 +92,7 @@ void *parallel_quicksort(void *arg) {
         }
     }
 
+    free(params);
     return NULL;
 }
 

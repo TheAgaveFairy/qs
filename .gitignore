@@ -1,2 +1,6 @@
 quicksort
 quicksort_help.c
+.DS_Store
+.vscode
+*.dSYM
+quicksort_p
