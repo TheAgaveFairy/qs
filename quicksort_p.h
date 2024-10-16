@@ -5,13 +5,19 @@
 #include <string.h>
 
 void swap(int *x, int *y);
-void quicksort(int array[], int length);
-void quicksort_recursion(int array[], int low, int high);
-int partition(int array[], int low, int high);
+void quicksort(int arr[], int low, int high);
+int partition(int arr[], int low, int high);
+void *parallel_quicksort(void *arg);
 
 int getNumThreads(int);
 int getInt();
 void printArray(int*, int);
+
+typedef struct {
+    int *array;
+    int low;
+    int high;
+} SortParams;
 
 int getNumThreads(int debug){
     if(debug){	
@@ -45,4 +51,5 @@ void printArray(int *arr, int size){
     }
     printf("\n");
 }
+
 #endif
