@@ -15,4 +15,4 @@ do
 	run_test $p
 done
 
-sed -i '1iThreads,ArraySize,ArrayGen,Quicksort,Total' results.csv
+sed -i '1iThreads,ArraySize,Quicksort' results.csv
