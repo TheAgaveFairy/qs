@@ -14,6 +14,10 @@
 int d_max = 0;
 
 int main(int argc, char * argv[]){
+    if(DEBUG){
+        printf("Array Size: %d\n", ARRAY_SIZE);
+    }    
+
    	int num_threads = getNumThreads(DEBUG);
 	omp_set_num_threads(num_threads);
 
