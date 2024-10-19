@@ -1,17 +1,10 @@
-#ifndef HELPERS_H
-#define HELPERS_H
-
-/*
-#include <omp.h>
 #include <stdlib.h>
+#include <omp.h>
 #include <stdio.h>
-*/
+#include <string.h>
+#include <time.h>
+#include "helpers.h"
 
-int * getTestArray(int);
-int getNumThreads(int);
-int getInt();
-void printArray(int*, int);
-/*
 int * getTestArray(int size){
     int *test_array = malloc(sizeof(int) * size);
 	
@@ -59,5 +52,4 @@ void printArray(int *arr, int size){
     }
     printf("\n");
 }
-*/
-#endif
+
