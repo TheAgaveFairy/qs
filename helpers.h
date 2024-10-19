@@ -11,6 +11,7 @@ int * getTestArray(int);
 int getNumThreads(int);
 int getInt();
 void printArray(int*, int);
+int checkArray(int *, int);
 /*
 int * getTestArray(int size){
     int *test_array = malloc(sizeof(int) * size);

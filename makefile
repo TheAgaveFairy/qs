@@ -2,12 +2,22 @@ CC = gcc
 CFLAGS = -g -fopenmp
 CPFLAGS = -g -pthread
 
-quicksort: quicksort.c quicksort.h quicksort_p.c quicksort_p.h helpers.o
-	$(CC) $(CFLAGS) -o quicksort quicksort.c
-	$(CC) $(CPFLAGS) -o quicksort_p quicksort_p.c
+all: quicksort quicksort_p
 
-helpers: helpers.c helpers.h
-	$(CC) -o helpers.o helpers.c
+quicksort: quicksort.o helpers.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+quicksort_p: quicksort_p.o helpers.o
+	$(CC) $(CPFLAGS) -o $@ $^
+
+quicksort.o: quicksort.c quicksort.h helpers.h
+	$(CC) $(CFLAGS) -c $<
+
+quicksort_p.o: quicksort_p.c quicksort_p.h helpers.h
+	$(CC) $(CFLAGS) -c $<
+
+helpers.o: helpers.c helpers.h
+	$(CC) -c $<
 
 clean:
-	rm -f quicksort quicksort_p helpers.o
+	rm -f quicksort quicksort_p *.o

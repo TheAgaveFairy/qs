@@ -4,3 +4,5 @@ quicksort_help.c
 .vscode
 *.dSYM
 quicksort_p
+*.o
+*.bak

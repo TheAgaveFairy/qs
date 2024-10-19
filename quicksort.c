@@ -7,7 +7,7 @@
 #include "quicksort.h"
 #include "helpers.h"
 
-#define ARRAY_SIZE (INT_MAX / 2) //(INT_MAX / 2) smaller for testing
+#define ARRAY_SIZE (INT_MAX / 64) //(INT_MAX / 2) smaller for testing
 #define DEBUG 1 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
 #define CUTOFF 1000 //Claude suggested parameter
 
@@ -34,7 +34,9 @@ int main(int argc, char * argv[]){
     //printArray(test_array, ARRAY_SIZE);
 
 	double end_time = omp_get_wtime();
+    
     if(DEBUG){
+        printf("%s\n", checkArray(test_array, ARRAY_SIZE) ? "Sorted!" : "FAILURE");
 	    printf("Time for arraygen:\t%lf\nTime for quicksort:\t%lfs\nTotal time:\t\t%lf\n", qs_begin_time-start_time, end_time-qs_begin_time, end_time-start_time);
 	} else {
         printf("%d, %d, %lf, %lf, %lf\n", num_threads, ARRAY_SIZE, qs_begin_time-start_time, end_time-qs_begin_time, end_time-start_time);
@@ -44,7 +46,7 @@ int main(int argc, char * argv[]){
 	return EXIT_SUCCESS;
 }
 
-/* taken from Kevin Browne github.com/portfoliocourses/c-example-code/ */
+/* taken from Kevin Browne github.com/portfoliocourses/c-example-code/ with modifications suggested by Claude */
 void swap(int *x, int *y){
 	int temp = *x;
 	*x = *y;
