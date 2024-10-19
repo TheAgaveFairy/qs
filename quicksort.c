@@ -14,6 +14,7 @@
 
 int d_max = 0;
 int cutoff = 0;
+int array_size;
 int main(int argc, char * argv[]){
     if(argc != 3){
         fprintf(stderr, "Please give the number of threads and array size. ex. for 12 threads and len 2^13./quicksort 12 8192");
@@ -26,11 +27,11 @@ int main(int argc, char * argv[]){
     
     double temp = log(ARRAY_SIZE) / log(2);
     cutoff = (int)temp;
-    cutoff = 10000;
+    //cutoff = 10000;
     if(DEBUG) printf("Cutoff log_2(ARRAY_SIZE): %d\n", cutoff);    
 
     int num_threads = atoi(argv[1]);
-    int array_size = atoi(argv[2]);
+    array_size = atoi(argv[2]);
    	
     //int num_threads = getNumThreads(DEBUG);
 	omp_set_num_threads(num_threads);
@@ -81,9 +82,10 @@ void quicksort_recursion(int array[], int low, int high, int depth){
     d_max = depth > d_max? depth : d_max;
     if(low < high){
         if(depth > CUTOFF){ //do sequential
-		    int pivot_index = partition(array, low, high);
-		    quicksort_recursion(array, low, pivot_index - 1, depth+1);
-		    quicksort_recursion(array, pivot_index +1, high, depth+1);		
+            insertion_sort(array, 0, array_size);
+		    //int pivot_index = partition(array, low, high);
+		    //quicksort_recursion(array, low, pivot_index - 1, depth+1);
+		    //quicksort_recursion(array, pivot_index +1, high, depth+1);		
 	    } else {
 		    int pivot_index = partition(array, low, high);
             #pragma omp task
