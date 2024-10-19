@@ -26,6 +26,7 @@ int main(int argc, char * argv[]){
     
     double temp = log(ARRAY_SIZE) / log(2);
     cutoff = (int)temp;
+    cutoff = 10000;
     if(DEBUG) printf("Cutoff log_2(ARRAY_SIZE): %d\n", cutoff);    
 
     int num_threads = atoi(argv[1]);
