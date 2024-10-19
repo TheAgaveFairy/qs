@@ -6,7 +6,7 @@ run_test() {
 
 	for i in {1..3}
 	do
-		./quicksort $1 $2  >> results.csv
+		./quicksort $1 $2  >> results/results_openmp.csv
 	done
 }
 
@@ -20,4 +20,4 @@ do
     done
 done
 
-sed -i '1iThreads,ArraySize,Quicksort' results.csv
+sed -i '1iThreads,ArraySize,Time' results/results_openmp.csv
