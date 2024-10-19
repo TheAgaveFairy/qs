@@ -6,3 +6,4 @@ quicksort_help.c
 quicksort_p
 *.o
 *.bak
+*.swp

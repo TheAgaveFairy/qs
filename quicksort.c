@@ -7,7 +7,7 @@
 #include "quicksort.h"
 #include "helpers.h"
 
-#define ARRAY_SIZE (INT_MAX / 64) //(INT_MAX / 2) smaller for testing
+#define ARRAY_SIZE (INT_MAX / 1024) //(INT_MAX / 2) smaller for testing
 #define DEBUG 1 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
 #define CUTOFF 1000 //Claude suggested parameter
 

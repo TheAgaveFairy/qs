@@ -6,14 +6,16 @@
 #include <sys/time.h>
 #include <math.h>
 #include "quicksort_p.h"
+#include "helpers.h"
 
-#define ARRAY_SIZE (INT_MAX / 16) //(INT_MAX / 2) smaller for testing
+#define ARRAY_SIZE (INT_MAX / 64) //(INT_MAX / 2) smaller for testing
 #define DEBUG 1 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
-#define CUTOFF 12
-
+#define CUTOFF ARRAY_SIZE/64 //size of [sub]array to put us in sequential mode
+//DO WE NEED TO MAKE A THREAD NUMBER CUTOFF
 
 int main(int argc, char * argv[]){
-	int *array = malloc(sizeof(int) * ARRAY_SIZE);
+	/*
+    int *array = malloc(sizeof(int) * ARRAY_SIZE);
 
 	if(!array){
 		fprintf(stderr, "Allocation failed. Exiting!");
@@ -24,7 +26,10 @@ int main(int argc, char * argv[]){
 	srand(time(NULL));
     for (int i = 0; i < ARRAY_SIZE; i++) {
         array[i] = rand();
-    }
+    }*/
+
+    int *array = getTestArray(ARRAY_SIZE);
+    //printArray(array, ARRAY_SIZE);
 	if(DEBUG) printf("Array Initialized\n");
 
 	clock_t start = clock();
@@ -33,30 +38,22 @@ int main(int argc, char * argv[]){
     SortParams *params = malloc(sizeof(SortParams));
     params->array = array;
     params->low = 0;
-    params->high = ARRAY_SIZE - 1;
+    params->high = ARRAY_SIZE;
 
     pthread_t initial_thread;
     pthread_create(&initial_thread, NULL, parallel_quicksort, params);
+    fprintf(stderr, "XXXXXXXXXXXXXXXXXXXX");
     pthread_join(initial_thread, NULL);
+
+    //if(debug) printArray(array, ARRAY_SIZE);
 
     clock_t end = clock();
     double cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 
     printf("Sorting completed in %f seconds\n", cpu_time_used);
-
-    // Verify sorting (check first few and last few elements)
-    printf("First few elements: ");
-    for (int i = 0; i < 5 && i < ARRAY_SIZE; i++) {
-        printf("%d ", array[i]);
-    }
-    printf("...\n");
-
-    printf("Last few elements: ");
-    for (int i = ARRAY_SIZE - 5; i < ARRAY_SIZE; i++) {
-        printf("%d ", array[i]);
-    }
-    printf("\n");
-
+    
+    if(DEBUG) printf("%s\n", checkArray(array, ARRAY_SIZE) ? "Sorted Correctly!" : "FAILURE TO SORT CORRECTLY!!!");
+    free(params);
     free(array);
     return 0;
 }
@@ -66,10 +63,11 @@ void *parallel_quicksort(void *arg) {
     int *arr = params->array;
     int low = params->low;
     int high = params->high;
-
+    fprintf(stderr, ".");
     if (low < high) {
         if (high - low < CUTOFF) {
-            quicksort(arr, low, high);
+            fprintf(stderr, "s\n");
+            quicksort(arr, low, high); //sequential
         } else {
             int pivot = partition(arr, low, high);
 
@@ -77,18 +75,20 @@ void *parallel_quicksort(void *arg) {
             SortParams left_params = {arr, low, pivot - 1};
             SortParams right_params = {arr, pivot + 1, high};
 
-            pthread_create(&left_thread, NULL, parallel_quicksort, &left_params);
-            pthread_create(&right_thread, NULL, parallel_quicksort, &right_params);
-
+            if(pthread_create(&left_thread, NULL, parallel_quicksort, &left_params)) fprintf(stderr, "PThread L Create Failure");
+            if(pthread_create(&right_thread, NULL, parallel_quicksort, &right_params)) fprintf(stderr, "PThread R Create Failure");
+            fprintf(stderr,"c");
             pthread_join(left_thread, NULL);
             pthread_join(right_thread, NULL);
+            fprintf(stderr,"j");
         }
     }
-
+    
     return NULL;
 }
 
 void quicksort(int arr[], int low, int high) {
+    //printArray(arr, ARRAY_SIZE);
     if (low < high) {
         int pivot = partition(arr, low, high);
         quicksort(arr, low, pivot - 1);
@@ -97,17 +97,22 @@ void quicksort(int arr[], int low, int high) {
 }
 
 int partition(int arr[], int low, int high) {
-    int pivot = arr[high];
-    int i = (low - 1);
+    int pivot_index = low + (rand() % (high - low));
+    if (pivot_index != high){
+        swap(&arr[pivot_index], &arr[high]);
+    }
 
-    for (int j = low; j <= high - 1; j++) {
-        if (arr[j] < pivot) {
-            i++;
+    int pivot = arr[high];
+    int i = low; //Claude got weird with indexing, might've caused off by one errors
+    int j;
+    for (j = low; j < high; j++) {
+        if (arr[j] <= pivot) {
             swap(&arr[i], &arr[j]);
+            i++;
         }
     }
-    swap(&arr[i + 1], &arr[high]);
-    return (i + 1);
+    swap(&arr[i], &arr[high]);
+    return i;
 }
 
 void swap(int* a, int* b) {

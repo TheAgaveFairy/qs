@@ -22,10 +22,10 @@ int * getTestArray(int size){
 
 int getNumThreads(int debug){
     if(debug){	
-	    printf("How many threads do you want? (1 <= p <= 12): ");
+	    printf("How many threads do you want? (1 or more): ");
 	}
     int num_threads = getInt();
-	if (num_threads < 1 || num_threads > 12){
+	if (num_threads < 1){
 		return getNumThreads(debug);
 	}
 	return num_threads;
@@ -55,8 +55,10 @@ void printArray(int *arr, int size){
 int checkArray(int *arr, int size){
     int i;
     for(i = 1; i < size; i++){
-        if(arr[i] < arr[i-1])
+        if(arr[i] < arr[i-1]){
+            fprintf(stderr, "WOAH! %d, %d!", arr[i-1], arr[i]);
             return 0;
+        }
     }
     return 1;
 }
