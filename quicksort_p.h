@@ -9,6 +9,7 @@ void quicksort(int arr[], int low, int high);
 int partition(int arr[], int low, int high);
 void *parallel_quicksort(void *arg);
 int checkOnlyIncreasing(int *arr, int size);
+void insertion_sort(int a[], int low, int high);
 
 int getNumThreads(int);
 int getInt();

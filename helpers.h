@@ -1,6 +1,7 @@
 #include <omp.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 int * getTestArray(int size){
     int *test_array = malloc(sizeof(int) * size);

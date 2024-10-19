@@ -10,17 +10,18 @@
 #define DEBUG 1 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
 #define CUTOFF 1000
 
-int ARRAY_SIZE;
-int MAX_THREADS;
+int array_size;
+int max_threads;
+int max_threads_used = 0;
 
 pthread_mutex_t thread_count_mutex = PTHREAD_MUTEX_INITIALIZER;
 int thread_count = 1; // Start with the main thread
 
 int main(int argc, char * argv[]){
-	MAX_THREADS = atoi(argv[1]);
-	ARRAY_SIZE = atoi(argv[2]);
+	max_threads = atoi(argv[1]);
+	array_size = atoi(argv[2]);
 
-	int *array = malloc(sizeof(int) * ARRAY_SIZE);
+	int *array = malloc(sizeof(int) * array_size);
 
 	if(!array){
 		fprintf(stderr, "Allocation failed. Exiting!");
@@ -29,7 +30,7 @@ int main(int argc, char * argv[]){
 
 	if(DEBUG) printf("Initializing Array\n");
 	srand(time(NULL));
-    for (int i = 0; i < ARRAY_SIZE; i++) {
+    for (int i = 0; i < array_size; i++) {
         array[i] = rand();
     }
 	if(DEBUG) printf("Array Initialized\n");
@@ -40,7 +41,7 @@ int main(int argc, char * argv[]){
     SortParams *params = malloc(sizeof(SortParams));
     params->array = array;
     params->low = 0;
-    params->high = ARRAY_SIZE - 1;
+    params->high = array_size - 1;
 
     pthread_t initial_thread;
     pthread_create(&initial_thread, NULL, parallel_quicksort, params);
@@ -54,25 +55,25 @@ int main(int argc, char * argv[]){
     // Verify sorting (check first few and last few elements)
 	if(DEBUG){
 		printf("First few elements: ");
-		for (int i = 0; i < 5 && i < ARRAY_SIZE; i++) {
+		for (int i = 0; i < 5 && i < array_size; i++) {
 			printf("%d ", array[i]);
 		}
 		printf("...\n");
 
 		printf("Last few elements: ");
-		for (int i = ARRAY_SIZE - 5; i < ARRAY_SIZE; i++) {
+		for (int i = array_size - 5; i < array_size; i++) {
 			printf("%d ", array[i]);
 		}
 		printf("\n");
 	}
 
 	if(DEBUG) {
-		int check = checkOnlyIncreasing(array, ARRAY_SIZE);
+		int check = checkOnlyIncreasing(array, array_size);
 		if(check == 1) printf("Successfully sorted!!!");
 		else printf("Not Successfully sorted!!!");
 	}
 
-	printf("%d, %d, %lf\n", thread_count, ARRAY_SIZE, cpu_time_used);
+	printf("\n%d, %d, %lf\n", max_threads_used - 1, array_size, cpu_time_used);
 
     free(array);
     return 0;
@@ -86,7 +87,7 @@ void *parallel_quicksort(void *arg) {
 
     if (low < high) {
         if (high - low < CUTOFF) {
-            quicksort(arr, low, high);
+            insertion_sort(arr, low, high);
         } else {
             int pivot = partition(arr, low, high);
 
@@ -95,7 +96,7 @@ void *parallel_quicksort(void *arg) {
             SortParams right_params = {arr, pivot + 1, high};
 
             pthread_mutex_lock(&thread_count_mutex);
-            if (thread_count >= MAX_THREADS) {
+            if (thread_count >= max_threads) {
                 // Cannot create new threads, unlock mutex
                 pthread_mutex_unlock(&thread_count_mutex);
 
@@ -117,6 +118,9 @@ void *parallel_quicksort(void *arg) {
 
                 // Decrement thread_count
                 pthread_mutex_lock(&thread_count_mutex);
+
+				if(thread_count > max_threads_used) max_threads_used = thread_count;
+
                 thread_count -= 2;
                 pthread_mutex_unlock(&thread_count_mutex);
             }
@@ -165,4 +169,18 @@ int checkOnlyIncreasing(int *arr, int size){
 	}
 	return 1;
 
+}
+
+/* insertion sort also taken from GitHub.com/PortfolioCourses/c-example-code */
+void insertion_sort(int a[], int low, int high){
+    int i;
+    for(i = low + 1; i < high; i++){
+        int key = a[i];
+        int j = i - 1;
+        while(j >= low && a[j] > key){
+            a[j+1] = a[j];
+            j--;
+        }
+        a[j+1] = key;
+    }
 }
