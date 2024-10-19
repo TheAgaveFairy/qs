@@ -15,19 +15,27 @@
 int d_max = 0;
 int cutoff = 0;
 int main(int argc, char * argv[]){
+    if(argc != 3){
+        fprintf(stderr, "Please give the number of threads and array size. ex. for 12 threads and len 2^13./quicksort 12 8192");
+        return EXIT_FAILURE;
+    }
+    /*
     if(DEBUG){
         printf("Array Size: %d\n", ARRAY_SIZE);
-    }    
+    } */   
     
     double temp = log(ARRAY_SIZE) / log(2);
     cutoff = (int)temp;
     if(DEBUG) printf("Cutoff log_2(ARRAY_SIZE): %d\n", cutoff);    
 
-   	int num_threads = getNumThreads(DEBUG);
+    int num_threads = atoi(argv[1]);
+    int array_size = atoi(argv[2]);
+   	
+    //int num_threads = getNumThreads(DEBUG);
 	omp_set_num_threads(num_threads);
 
 	double start_time = omp_get_wtime();
-    int *test_array = getTestArray(ARRAY_SIZE);
+    int *test_array = getTestArray(array_size);
 	if(!test_array){
 		fprintf(stderr, "Allocation failed. Exiting!");
 		return EXIT_FAILURE;
@@ -35,18 +43,18 @@ int main(int argc, char * argv[]){
     double qs_begin_time = omp_get_wtime();
 
     //printArray(test_array, ARRAY_SIZE);
-    quicksort(test_array, ARRAY_SIZE);
+    quicksort(test_array, array_size);
     //printArray(test_array, ARRAY_SIZE);
 
 	double end_time = omp_get_wtime();
     
     if(DEBUG){
-        printf("%s\n", checkArray(test_array, ARRAY_SIZE) ? "Sorted!" : "FAILURE");
+        printf("%s\n", checkArray(test_array, array_size) ? "Sorted!" : "FAILURE");
 	    printf("Max. Depth: %d\n", d_max);
         printf("Time for arraygen:\t%lf\nTime for quicksort:\t%lfs\nTotal time:\t\t%lf\n", qs_begin_time-start_time, end_time-qs_begin_time, end_time-start_time);
 	} else {
         //printf("%d, %d, %lf, %lf, %lf\n", num_threads, ARRAY_SIZE, qs_begin_time-start_time, end_time-qs_begin_time, end_time-start_time);
-        printf("%d, %d, %lf\n", num_threads, ARRAY_SIZE, end_time-qs_begin_time);
+        printf("%d, %d, %lf\n", num_threads, array_size, end_time-qs_begin_time);
     }
 	free(test_array);
 	return EXIT_SUCCESS;
