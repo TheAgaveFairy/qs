@@ -10,7 +10,7 @@
 
 #define ARRAY_SIZE (INT_MAX / 64) //(INT_MAX / 2) smaller for testing
 #define DEBUG 1 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
-#define CUTOFF ARRAY_SIZE/64 //size of [sub]array to put us in sequential mode
+#define CUTOFF 8192 //size of [sub]array to put us in sequential mode
 //DO WE NEED TO MAKE A THREAD NUMBER CUTOFF
 
 int main(int argc, char * argv[]){
@@ -50,7 +50,7 @@ int main(int argc, char * argv[]){
     clock_t end = clock();
     double cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 
-    printf("Sorting completed in %f seconds\n", cpu_time_used);
+    if(DEBUG) printf("Sorting completed in %f seconds\n", cpu_time_used);
     
     if(DEBUG) printf("%s\n", checkArray(array, ARRAY_SIZE) ? "Sorted Correctly!" : "FAILURE TO SORT CORRECTLY!!!");
     free(params);
