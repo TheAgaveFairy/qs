@@ -7,15 +7,19 @@
 #include <math.h>
 #include "quicksort_p.h"
 
-#define ARRAY_SIZE (INT_MAX / 16) //(INT_MAX / 2) smaller for testing
 #define DEBUG 1 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
 #define CUTOFF 1000
-#define MAX_THREADS 20 
+
+int ARRAY_SIZE;
+int MAX_THREADS;
 
 pthread_mutex_t thread_count_mutex = PTHREAD_MUTEX_INITIALIZER;
 int thread_count = 1; // Start with the main thread
 
 int main(int argc, char * argv[]){
+	MAX_THREADS = atoi(argv[1]);
+	ARRAY_SIZE = atoi(argv[2]);
+
 	int *array = malloc(sizeof(int) * ARRAY_SIZE);
 
 	if(!array){
@@ -67,6 +71,8 @@ int main(int argc, char * argv[]){
 		if(check == 1) printf("Successfully sorted!!!");
 		else printf("Not Successfully sorted!!!");
 	}
+
+	printf("%d, %d, %lf\n", thread_count, ARRAY_SIZE, cpu_time_used);
 
     free(array);
     return 0;
