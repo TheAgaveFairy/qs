@@ -43,6 +43,7 @@ int main(int argc, char * argv[]){
 	}
 
     double qs_begin_time = omp_get_wtime();
+    //insertion_sort(test_array, 0, array_size);
     quicksort(test_array, array_size);
 	double end_time = omp_get_wtime();
     
