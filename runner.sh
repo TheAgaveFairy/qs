@@ -10,9 +10,9 @@ run_test() {
 	done
 }
 
-for p in {1..12}
+for p in {1,2,4,8,12}
 do
-    for i in {20..30}
+    for i in {16..30}
     do
         n=$((2**i))
 	    echo $p $n

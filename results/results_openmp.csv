@@ -1,54 +1,612 @@
-Cutoff log_2(ARRAY_SIZE): 32
-FAILURE
-Max. Depth: 40
-Time for arraygen:	0.004842
-Time for quicksort:	0.088027s
-Total time:		0.092869
-Cutoff log_2(ARRAY_SIZE): 32
-FAILURE
-Max. Depth: 40
-Time for arraygen:	0.004834
-Time for quicksort:	0.086730s
-Total time:		0.091564
-Cutoff log_2(ARRAY_SIZE): 32
-FAILURE
-Max. Depth: 40
-Time for arraygen:	0.004797
-Time for quicksort:	0.087221s
-Total time:		0.092018
-Cutoff log_2(ARRAY_SIZE): 32
-FAILURE
-Max. Depth: 44
-Time for arraygen:	0.009701
-Time for quicksort:	0.185779s
-Total time:		0.195481
-Cutoff log_2(ARRAY_SIZE): 32
-FAILURE
-Max. Depth: 40
-Time for arraygen:	0.009656
-Time for quicksort:	0.186497s
-Total time:		0.196153
-Cutoff log_2(ARRAY_SIZE): 32
-FAILURE
-Max. Depth: 40
-Time for arraygen:	0.009208
-Time for quicksort:	0.178511s
-Total time:		0.187719
-Cutoff log_2(ARRAY_SIZE): 32
-FAILURE
-Max. Depth: 46
-Time for arraygen:	0.018503
-Time for quicksort:	0.365137s
-Total time:		0.383640
-Cutoff log_2(ARRAY_SIZE): 32
-FAILURE
-Max. Depth: 46
-Time for arraygen:	0.018168
-Time for quicksort:	0.367792s
-Total time:		0.385960
-Cutoff log_2(ARRAY_SIZE): 32
-FAILURE
-Max. Depth: 42
-Time for arraygen:	0.018522
-Time for quicksort:	0.370203s
-Total time:		0.388725
+Threads,ArraySize,Time
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000002
+Time for quicksort:	0.000001s
+Total time:		0.000003
+1, 2, 0.000001
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000001
+Time for quicksort:	0.000001s
+Total time:		0.000002
+1, 4, 0.000001
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000002
+Time for quicksort:	0.000001s
+Total time:		0.000003
+1, 8, 0.000001
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000002
+Time for quicksort:	0.000001s
+Total time:		0.000003
+1, 16, 0.000001
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000002
+Time for quicksort:	0.000002s
+Total time:		0.000003
+1, 32, 0.000002
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000002
+Time for quicksort:	0.000004s
+Total time:		0.000005
+1, 64, 0.000004
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000002
+Time for quicksort:	0.000007s
+Total time:		0.000008
+1, 128, 0.000007
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000003
+Time for quicksort:	0.000014s
+Total time:		0.000016
+1, 256, 0.000014
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000004
+Time for quicksort:	0.000022s
+Total time:		0.000026
+1, 512, 0.000022
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000006
+Time for quicksort:	0.000059s
+Total time:		0.000065
+1, 1024, 0.000059
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000011
+Time for quicksort:	0.000120s
+Total time:		0.000130
+1, 2048, 0.000120
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000021
+Time for quicksort:	0.000214s
+Total time:		0.000235
+1, 4096, 0.000214
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000038
+Time for quicksort:	0.000501s
+Total time:		0.000539
+1, 8192, 0.000501
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000075
+Time for quicksort:	0.000966s
+Total time:		0.001041
+1, 16384, 0.000966
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000209
+Time for quicksort:	0.002322s
+Total time:		0.002531
+1, 32768, 0.002322
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000321
+Time for quicksort:	0.004583s
+Total time:		0.004904
+1, 65536, 0.004583
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000599
+Time for quicksort:	0.009456s
+Total time:		0.010054
+1, 131072, 0.009456
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.001206
+Time for quicksort:	0.020602s
+Total time:		0.021808
+1, 262144, 0.020602
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.002340
+Time for quicksort:	0.043353s
+Total time:		0.045692
+1, 524288, 0.043353
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.005158
+Time for quicksort:	0.089602s
+Total time:		0.094760
+1, 1048576, 0.089602
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.009437
+Time for quicksort:	0.189353s
+Total time:		0.198790
+1, 2097152, 0.189353
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.019173
+Time for quicksort:	0.418038s
+Total time:		0.437211
+1, 4194304, 0.418038
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.039425
+Time for quicksort:	0.915737s
+Total time:		0.955162
+1, 8388608, 0.915737
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.075013
+Time for quicksort:	1.750248s
+Total time:		1.825261
+1, 16777216, 1.750248
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.147625
+Time for quicksort:	3.682220s
+Total time:		3.829844
+1, 33554432, 3.682220
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.305607
+Time for quicksort:	7.766944s
+Total time:		8.072550
+1, 67108864, 7.766944
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.619396
+Time for quicksort:	15.875667s
+Total time:		16.495064
+1, 134217728, 15.875667
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	1.194864
+Time for quicksort:	33.220466s
+Total time:		34.415329
+1, 268435456, 33.220466
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	2.329535
+Time for quicksort:	66.906280s
+Total time:		69.235815
+1, 536870912, 66.906280
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	4.713118
+Time for quicksort:	137.445325s
+Total time:		142.158444
+1, 1073741824, 137.445325
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000063
+Time for quicksort:	0.000001s
+Total time:		0.000064
+2, 2, 0.000001
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000051
+Time for quicksort:	0.000001s
+Total time:		0.000053
+2, 4, 0.000001
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000193
+Time for quicksort:	0.000002s
+Total time:		0.000195
+2, 8, 0.000002
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000043
+Time for quicksort:	0.000001s
+Total time:		0.000045
+2, 16, 0.000001
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000050
+Time for quicksort:	0.000001s
+Total time:		0.000051
+2, 32, 0.000001
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000037
+Time for quicksort:	0.000026s
+Total time:		0.000064
+2, 64, 0.000026
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000040
+Time for quicksort:	0.000032s
+Total time:		0.000071
+2, 128, 0.000032
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000042
+Time for quicksort:	0.000031s
+Total time:		0.000073
+2, 256, 0.000031
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000042
+Time for quicksort:	0.000044s
+Total time:		0.000086
+2, 512, 0.000044
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000047
+Time for quicksort:	0.000101s
+Total time:		0.000148
+2, 1024, 0.000101
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000043
+Time for quicksort:	0.000089s
+Total time:		0.000132
+2, 2048, 0.000089
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000047
+Time for quicksort:	0.000181s
+Total time:		0.000228
+2, 4096, 0.000181
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000061
+Time for quicksort:	0.000340s
+Total time:		0.000401
+2, 8192, 0.000340
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000079
+Time for quicksort:	0.000856s
+Total time:		0.000935
+2, 16384, 0.000856
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000135
+Time for quicksort:	0.002625s
+Total time:		0.002759
+2, 32768, 0.002625
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000186
+Time for quicksort:	0.002885s
+Total time:		0.003070
+2, 65536, 0.002885
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000332
+Time for quicksort:	0.010198s
+Total time:		0.010530
+2, 131072, 0.010198
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000782
+Time for quicksort:	0.014518s
+Total time:		0.015300
+2, 262144, 0.014518
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.001380
+Time for quicksort:	0.055480s
+Total time:		0.056861
+2, 524288, 0.055480
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.002882
+Time for quicksort:	0.068287s
+Total time:		0.071169
+2, 1048576, 0.068287
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.005243
+Time for quicksort:	0.192265s
+Total time:		0.197509
+2, 2097152, 0.192265
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.009901
+Time for quicksort:	0.293557s
+Total time:		0.303458
+2, 4194304, 0.293557
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.019471
+Time for quicksort:	0.692739s
+Total time:		0.712210
+2, 8388608, 0.692739
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000487
+Time for quicksort:	0.000002s
+Total time:		0.000489
+12, 2, 0.000002
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.008472
+Time for quicksort:	0.000020s
+Total time:		0.008492
+12, 4, 0.000020
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.006184
+Time for quicksort:	0.000062s
+Total time:		0.006246
+12, 8, 0.000062
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.001818
+Time for quicksort:	0.000002s
+Total time:		0.001820
+12, 16, 0.000002
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.006568
+Time for quicksort:	0.005526s
+Total time:		0.012094
+12, 32, 0.005526
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000410
+Time for quicksort:	0.000048s
+Total time:		0.000458
+12, 64, 0.000048
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000269
+Time for quicksort:	0.000236s
+Total time:		0.000505
+12, 128, 0.000236
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000275
+Time for quicksort:	0.000234s
+Total time:		0.000509
+12, 256, 0.000234
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000271
+Time for quicksort:	0.000246s
+Total time:		0.000517
+12, 512, 0.000246
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000542
+Time for quicksort:	0.001133s
+Total time:		0.001675
+12, 1024, 0.001133
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.005831
+Time for quicksort:	0.000360s
+Total time:		0.006191
+12, 2048, 0.000360
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000322
+Time for quicksort:	0.000338s
+Total time:		0.000660
+12, 4096, 0.000338
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000294
+Time for quicksort:	0.000377s
+Total time:		0.000671
+12, 8192, 0.000377
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000783
+Time for quicksort:	0.000837s
+Total time:		0.001620
+12, 16384, 0.000837
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000466
+Time for quicksort:	0.001447s
+Total time:		0.001913
+12, 32768, 0.001447
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.004111
+Time for quicksort:	0.006318s
+Total time:		0.010428
+12, 65536, 0.006318
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000360
+Time for quicksort:	0.005044s
+Total time:		0.005404
+12, 131072, 0.005044
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.000398
+Time for quicksort:	0.010573s
+Total time:		0.010971
+12, 262144, 0.010573
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.006549
+Time for quicksort:	0.018738s
+Total time:		0.025287
+12, 524288, 0.018738
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.010038
+Time for quicksort:	0.040267s
+Total time:		0.050305
+12, 1048576, 0.040267
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.006560
+Time for quicksort:	0.088463s
+Total time:		0.095023
+12, 2097152, 0.088463
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.008135
+Time for quicksort:	0.157648s
+Total time:		0.165783
+12, 4194304, 0.157648
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.013190
+Time for quicksort:	0.350306s
+Total time:		0.363496
+12, 8388608, 0.350306
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.015496
+Time for quicksort:	0.606652s
+Total time:		0.622148
+12, 16777216, 0.606652
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.024788
+Time for quicksort:	1.163920s
+Total time:		1.188708
+12, 33554432, 1.163920
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.046465
+Time for quicksort:	2.751196s
+Total time:		2.797661
+12, 67108864, 2.751196
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.087543
+Time for quicksort:	4.836382s
+Total time:		4.923925
+12, 134217728, 4.836382
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.127350
+Time for quicksort:	10.020921s
+Total time:		10.148271
+12, 268435456, 10.020921
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.294252
+Time for quicksort:	21.561057s
+Total time:		21.855309
+12, 536870912, 21.561057
+Cutoff : 32
+Sorted!
+Max. Depth: 0
+Time for arraygen:	0.499834
+Time for quicksort:	40.415736s
+Total time:		40.915570
+12, 1073741824, 40.415736
+1, 65536, 0.004808
+1, 65536, 0.004765
+1, 65536, 0.004852
+1, 131072, 0.009983
+1, 131072, 0.009982
+1, 131072, 0.009692
+1, 262144, 0.021728
+1, 262144, 0.021339
+1, 262144, 0.021394
+1, 524288, 0.046317
+1, 524288, 0.046041
+1, 524288, 0.045112
+1, 1048576, 0.092371
+1, 1048576, 0.092750
+1, 1048576, 0.088890
+1, 2097152, 0.187457
+1, 2097152, 0.187173
+1, 2097152, 0.187824
+1, 4194304, 0.389180
+1, 4194304, 0.392446
+1, 4194304, 0.391005
+1, 8388608, 0.817695
+1, 8388608, 0.831003
+1, 8388608, 0.933627
+1, 16777216, 1.775768
+1, 16777216, 1.679590
+1, 16777216, 1.734305
+1, 33554432, 3.773021
+1, 33554432, 3.529580
+1, 33554432, 3.563371

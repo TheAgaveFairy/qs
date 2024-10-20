@@ -13,9 +13,10 @@
 #define CUTOFF 1000 //Claude suggested parameter - probably going to dynamically calculate instead
 */
 
-#define DEBUG 1 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
+#define DEBUG 0 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
 
-int d_max = 0;  // counts how deep we are in recursion
+//int d_max = 0;  // counts how deep we are in recursion
+
 int cutoff = 0; // how deep we'll allow the recursion to go
 int array_size;
 
@@ -28,10 +29,10 @@ int main(int argc, char * argv[]){
     int num_threads = atoi(argv[1]); //not super safe but ok for today
     array_size = atoi(argv[2]);
     
-    double temp = log(array_size) / log(2);
-    cutoff = (int)temp;
+    //double temp = log(array_size) / log(2);
+    //cutoff = (int)temp;
     cutoff = 32;
-    if(DEBUG) printf("Cutoff log_2(ARRAY_SIZE): %d\n", cutoff);    
+    if(DEBUG) printf("Cutoff : %d\n", cutoff);    
 	
 	omp_set_num_threads(num_threads);
 
@@ -49,11 +50,11 @@ int main(int argc, char * argv[]){
     
     if(DEBUG){
         printf("%s\n", checkArray(test_array, array_size) ? "Sorted!" : "FAILURE");
-	    printf("Max. Depth: %d\n", d_max);
+	    //printf("Max. Depth: %d\n", d_max);
         printf("Time for arraygen:\t%lf\nTime for quicksort:\t%lfs\nTotal time:\t\t%lf\n", qs_begin_time-start_time, end_time-qs_begin_time, end_time-start_time);
-	} else {
-        printf("%d, %d, %lf\n", num_threads, array_size, end_time-qs_begin_time);
-    }
+	}
+    printf("%d, %d, %lf\n", num_threads, array_size, end_time-qs_begin_time);
+    
 	free(test_array);
 	return EXIT_SUCCESS;
 }
@@ -75,15 +76,12 @@ void quicksort(int array[], int length){
     }
 }
 void quicksort_recursion(int array[], int low, int high, int depth){
-    d_max = depth > d_max? depth : d_max;
+    //d_max = depth > d_max? depth : d_max;
     //fprintf(stderr, "d=%d ", depth);
     if(low < high){
-        if(high - low < cutoff){ //do sequential
+        if((high - low) < cutoff){ //do sequential
             //fprintf(stderr, "INSERTION SORT... ");
-            insertion_sort(array, low, high);
-		    //int pivot_index = partition(array, low, high);
-		    //quicksort_recursion(array, low, pivot_index - 1, depth+1);
-		    //quicksort_recursion(array, pivot_index +1, high, depth+1);		
+            insertion_sort(array, low, high+1);
 	        //fprintf(stderr, "IS DONE.\n");
         } else {
 		    int pivot_index = partition(array, low, high);
@@ -95,6 +93,7 @@ void quicksort_recursion(int array[], int low, int high, int depth){
             {
                 quicksort_recursion(array, pivot_index+1, high, depth + 1);
             }
+            #pragma omp taskwait
         }
     }
 }
