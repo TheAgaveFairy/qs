@@ -7,20 +7,25 @@
 #include <math.h>
 #include "quicksort_p.h"
 
-#define DEBUG 1 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
 #define CUTOFF 1000
 
 int array_size;
 int max_threads;
 int max_threads_used = 0;
+int debug = 0;
 
 pthread_mutex_t thread_count_mutex = PTHREAD_MUTEX_INITIALIZER;
 int thread_count = 1; // Start with the main thread
 
 int main(int argc, char * argv[]){
-	max_threads = atoi(argv[1]);
-	array_size = atoi(argv[2]);
-
+	if(argc == 3){
+		max_threads = atoi(argv[1]);
+		array_size = atoi(argv[2]);
+	} else if (argc == 4){
+		max_threads = atoi(argv[1]);
+		array_size = atoi(argv[2]);
+		debug = atoi(argv[3]);
+	}
 	int *array = malloc(sizeof(int) * array_size);
 
 	if(!array){
@@ -28,12 +33,12 @@ int main(int argc, char * argv[]){
 		return EXIT_FAILURE;
 	}
 
-	if(DEBUG) printf("Initializing Array\n");
+	if(debug) printf("Initializing Array\n");
 	srand(time(NULL));
     for (int i = 0; i < array_size; i++) {
         array[i] = rand();
     }
-	if(DEBUG) printf("Array Initialized\n");
+	if(debug) printf("Array Initialized\n");
 
 	clock_t start = clock();
 
@@ -50,10 +55,10 @@ int main(int argc, char * argv[]){
     clock_t end = clock();
     double cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 
-    if(DEBUG) printf("Sorting completed in %f seconds\n", cpu_time_used);
+    if(debug) printf("Sorting completed in %f seconds\n", cpu_time_used);
 
     // Verify sorting (check first few and last few elements)
-	if(DEBUG){
+	if(debug){
 		printf("First few elements: ");
 		for (int i = 0; i < 5 && i < array_size; i++) {
 			printf("%d ", array[i]);
@@ -67,7 +72,7 @@ int main(int argc, char * argv[]){
 		printf("\n");
 	}
 
-	if(DEBUG) {
+	if(debug) {
 		int check = checkOnlyIncreasing(array, array_size);
 		if(check == 1) printf("Successfully sorted!!!");
 		else printf("Not Successfully sorted!!!");
