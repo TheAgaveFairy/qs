@@ -8,10 +8,7 @@
 #include "quicksort.h"
 #include "helpers.h"
 
-/*------------------DEPRECATED
-#define ARRAY_SIZE (INT_MAX / 2) //(INT_MAX / 2) smaller for testing
-#define CUTOFF 1000 //Claude suggested parameter - probably going to dynamically calculate instead
-*/
+#define CUTOFF 1000 //Claude suggested feature for subarray size to swtich to a different algo
 
 #define DEBUG 0 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
 
@@ -31,7 +28,7 @@ int main(int argc, char * argv[]){
     
     //double temp = log(array_size) / log(2);
     //cutoff = (int)temp;
-    cutoff = 32;
+    cutoff = 64;
     if(DEBUG) printf("Cutoff : %d\n", cutoff);    
 	
 	omp_set_num_threads(num_threads);
@@ -77,12 +74,9 @@ void quicksort(int array[], int length){
 }
 void quicksort_recursion(int array[], int low, int high, int depth){
     //d_max = depth > d_max? depth : d_max;
-    //fprintf(stderr, "d=%d ", depth);
     if(low < high){
         if((high - low) < cutoff){ //do sequential
-            //fprintf(stderr, "INSERTION SORT... ");
             insertion_sort(array, low, high+1);
-	        //fprintf(stderr, "IS DONE.\n");
         } else {
 		    int pivot_index = partition(array, low, high);
             #pragma omp task
@@ -93,15 +87,17 @@ void quicksort_recursion(int array[], int low, int high, int depth){
             {
                 quicksort_recursion(array, pivot_index+1, high, depth + 1);
             }
-            #pragma omp taskwait
+            #pragma omp taskwait // might not be strictly needed
         }
     }
 }
 int partition(int array[], int low, int high){
-	int pivot_index = low + (rand() % (high-low)); //get a random index to use as pivot
+	/*int pivot_index = low + (rand() % (high-low)); //get a random index to use as pivot
 	if(pivot_index != high){
 		swap(&array[pivot_index], &array[high]);
 	}
+    OLD DEPRECATED RANDOM PIVOT */
+    int pivot_index = medianOfThree(array, low, high);
 	
     int pivot_value = array[high];
 	
@@ -117,3 +113,17 @@ int partition(int array[], int low, int high){
 	return i;
 }
 /* end copied code snippet */
+int medianOfThree(int *arr, int low, int high){
+    int mid = low + (high - low) / 2; // prevent overflow
+    if(arr[low] > arr[mid])
+        swap(&arr[low], &arr[mid]);
+    if(arr[low] > arr[high])
+        swap(&arr[low], &arr[high]);
+    if(arr[mid] > arr[high])
+        swap(&arr[mid], &arr[high]);
+    //might as well order them as we go
+
+    swap(&arr[mid], %arr[high]);
+    return high;
+
+}
