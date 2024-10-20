@@ -123,7 +123,7 @@ int medianOfThree(int *arr, int low, int high){
         swap(&arr[mid], &arr[high]);
     //might as well order them as we go
 
-    swap(&arr[mid], %arr[high]);
+    swap(&arr[mid], &arr[high]);
     return high;
 
 }
