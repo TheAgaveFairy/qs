@@ -6,7 +6,7 @@ run_test() {
 
 	for i in {1..3}
 	do
-		./quicksort $1 $2  >> results.csv
+		./quicksort_p $1 $2  >> results.csv
 	done
 }
 

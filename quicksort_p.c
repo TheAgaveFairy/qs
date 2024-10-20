@@ -92,7 +92,7 @@ void *parallel_quicksort(void *arg) {
 
     if (low < high) {
         if (high - low < CUTOFF) {
-            quicksort(arr, low, high);
+            insertion_sort(arr, low, high);
         } else {
             int pivot = partition(arr, low, high);
 
@@ -164,6 +164,10 @@ void quicksort(int arr[], int low, int high) {
 }
 
 int partition(int arr[], int low, int high) {
+    int median_index = median_of_three(arr, low, high);
+
+    swap(&arr[median_index], &arr[high]);
+
     int pivot = arr[high];
     int i = (low - 1);
 
@@ -175,6 +179,20 @@ int partition(int arr[], int low, int high) {
     }
     swap(&arr[i + 1], &arr[high]);
     return (i + 1);
+}
+
+int median_of_three(int arr[], int low, int high) {
+    int mid = low + (high - low) / 2;
+    int a = arr[low];
+	int b = arr[mid];
+	int c = arr[high];
+    int median;
+    if ((b <= a && a <= c) || (c <= a && a <= b))
+        return mid;   
+    else if ((b <= a && a <= c) || (c <= a && a <= b))
+        return low;
+    else
+        return high;
 }
 
 void swap(int* a, int* b) {
@@ -195,10 +213,9 @@ int checkOnlyIncreasing(int *arr, int size){
 
 }
 
-/* insertion sort also taken from GitHub.com/PortfolioCourses/c-example-code */
 void insertion_sort(int a[], int low, int high){
     int i;
-    for(i = low + 1; i < high; i++){
+    for(i = low + 1; i <= high; i++){
         int key = a[i];
         int j = i - 1;
         while(j >= low && a[j] > key){
