@@ -11,7 +11,7 @@
 
 int array_size;
 int max_threads;
-int max_threads_used = 0;
+int max_threads_used = 1;
 int debug = 0;
 
 pthread_mutex_t thread_count_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -78,7 +78,7 @@ int main(int argc, char * argv[]){
 		else printf("Not Successfully sorted!!!");
 	}
 
-	printf("\n%d, %d, %lf\n", max_threads_used - 1, array_size, cpu_time_used);
+	printf("\n%d, %d, %lf\n", max_threads_used, array_size, cpu_time_used);
 
     free(array);
     return 0;
@@ -92,7 +92,7 @@ void *parallel_quicksort(void *arg) {
 
     if (low < high) {
         if (high - low < CUTOFF) {
-            insertion_sort(arr, low, high);
+            quicksort(arr, low, high);
         } else {
             int pivot = partition(arr, low, high);
 
@@ -108,6 +108,25 @@ void *parallel_quicksort(void *arg) {
                 // Use sequential quicksort on both halves
                 quicksort(arr, low, pivot - 1);
                 quicksort(arr, pivot + 1, high);
+			} else if (thread_count >= max_threads - 1) {
+				// Increment thread_count
+                thread_count += 1;
+                pthread_mutex_unlock(&thread_count_mutex);
+
+                // Create child threads
+                pthread_create(&left_thread, NULL, parallel_quicksort, &left_params);
+
+                // Wait for child threads to finish
+				quicksort(arr, pivot + 1, high);
+                pthread_join(left_thread, NULL);
+
+                // Decrement thread_count
+                pthread_mutex_lock(&thread_count_mutex);
+
+				if(thread_count > max_threads_used) max_threads_used = thread_count;
+
+                thread_count -= 1;
+                pthread_mutex_unlock(&thread_count_mutex);
             } else {
                 // Increment thread_count
                 thread_count += 2;
