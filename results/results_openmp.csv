@@ -1,0 +1,54 @@
+Cutoff log_2(ARRAY_SIZE): 32
+FAILURE
+Max. Depth: 40
+Time for arraygen:	0.004842
+Time for quicksort:	0.088027s
+Total time:		0.092869
+Cutoff log_2(ARRAY_SIZE): 32
+FAILURE
+Max. Depth: 40
+Time for arraygen:	0.004834
+Time for quicksort:	0.086730s
+Total time:		0.091564
+Cutoff log_2(ARRAY_SIZE): 32
+FAILURE
+Max. Depth: 40
+Time for arraygen:	0.004797
+Time for quicksort:	0.087221s
+Total time:		0.092018
+Cutoff log_2(ARRAY_SIZE): 32
+FAILURE
+Max. Depth: 44
+Time for arraygen:	0.009701
+Time for quicksort:	0.185779s
+Total time:		0.195481
+Cutoff log_2(ARRAY_SIZE): 32
+FAILURE
+Max. Depth: 40
+Time for arraygen:	0.009656
+Time for quicksort:	0.186497s
+Total time:		0.196153
+Cutoff log_2(ARRAY_SIZE): 32
+FAILURE
+Max. Depth: 40
+Time for arraygen:	0.009208
+Time for quicksort:	0.178511s
+Total time:		0.187719
+Cutoff log_2(ARRAY_SIZE): 32
+FAILURE
+Max. Depth: 46
+Time for arraygen:	0.018503
+Time for quicksort:	0.365137s
+Total time:		0.383640
+Cutoff log_2(ARRAY_SIZE): 32
+FAILURE
+Max. Depth: 46
+Time for arraygen:	0.018168
+Time for quicksort:	0.367792s
+Total time:		0.385960
+Cutoff log_2(ARRAY_SIZE): 32
+FAILURE
+Max. Depth: 42
+Time for arraygen:	0.018522
+Time for quicksort:	0.370203s
+Total time:		0.388725

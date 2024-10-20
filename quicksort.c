@@ -13,7 +13,7 @@
 #define CUTOFF 1000 //Claude suggested parameter - probably going to dynamically calculate instead
 */
 
-#define DEBUG 0 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
+#define DEBUG 1 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
 
 int d_max = 0;  // counts how deep we are in recursion
 int cutoff = 0; // how deep we'll allow the recursion to go
@@ -25,11 +25,12 @@ int main(int argc, char * argv[]){
         return EXIT_FAILURE;
     }
    
-    int num_threads = atoi(argv[1]); //not super safe but
+    int num_threads = atoi(argv[1]); //not super safe but ok for today
     array_size = atoi(argv[2]);
     
     double temp = log(array_size) / log(2);
     cutoff = (int)temp;
+    cutoff = 32;
     if(DEBUG) printf("Cutoff log_2(ARRAY_SIZE): %d\n", cutoff);    
 	
 	omp_set_num_threads(num_threads);
@@ -74,13 +75,16 @@ void quicksort(int array[], int length){
 }
 void quicksort_recursion(int array[], int low, int high, int depth){
     d_max = depth > d_max? depth : d_max;
+    //fprintf(stderr, "d=%d ", depth);
     if(low < high){
-        if(depth > cutoff){ //do sequential
-            insertion_sort(array, 0, array_size);
+        if(high - low < cutoff){ //do sequential
+            //fprintf(stderr, "INSERTION SORT... ");
+            insertion_sort(array, low, high);
 		    //int pivot_index = partition(array, low, high);
 		    //quicksort_recursion(array, low, pivot_index - 1, depth+1);
 		    //quicksort_recursion(array, pivot_index +1, high, depth+1);		
-	    } else {
+	        //fprintf(stderr, "IS DONE.\n");
+        } else {
 		    int pivot_index = partition(array, low, high);
             #pragma omp task
             {
