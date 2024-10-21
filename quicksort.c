@@ -13,7 +13,7 @@
 //int d_max = 0;  // counts how deep we are in recursion
 
 int array_size;
-int cutoff = 32; //values 20,32,64,1024 have been tested. lower range is better!
+int cutoff = 64; //values 20,32,64,1024 have been tested. lower range is better!
 
 int main(int argc, char * argv[]){
     if(argc < 3 || argc > 4){
@@ -46,7 +46,7 @@ int main(int argc, char * argv[]){
 	    //printf("Max. Depth: %d\n", d_max);
         printf("Time for arraygen:\t%lf\nTime for quicksort:\t%lfs\nTotal time:\t\t%lf\n", qs_begin_time-start_time, end_time-qs_begin_time, end_time-start_time);
 	}
-    printf("%d, %d, %lf\n", num_threads, array_size, end_time-qs_begin_time);
+    printf("%d, %d, %d, %lf\n", num_threads, array_size, cutoff, end_time-qs_begin_time);
     
 	free(test_array);
 	return EXIT_SUCCESS;
