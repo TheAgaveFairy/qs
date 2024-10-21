@@ -5,17 +5,17 @@ run_test() {
     local n=1073741824
     local c=$1
 
-	for i in {1..3}
+	for i in {1..5}
 	do
-		./quicksort $p $n $c >> results/results_cutoffs.csv
+		./quicksort $p $n $c >> results/cutoffs.csv
 	done
 }
 
-for x in {64..128}
+for x in {64..128..8}
 do
     c=$((2**x))
-    echo $c
-    run_test $c
+    echo $x
+    run_test $x
 done
 
-sed -i '1iThreads,ArraySize,Cutoff,Time' results/results_cutoffs.csv
+sed -i '1iThreads,ArraySize,Cutoff,Time' results/cutoffs.csv
