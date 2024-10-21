@@ -8,27 +8,23 @@
 #include "quicksort.h"
 #include "helpers.h"
 
-#define CUTOFF 1000 //Claude suggested feature for subarray size to swtich to a different algo
-
-#define DEBUG 0 //if 1, will print human readable statements to stdout. if 0, outputs for redirection that will come to .csv
+#define DEBUG 0 //if 1, will print human readable statements to stdout. if 0, only prints stats (mainly for redirection to a .csv)
 
 //int d_max = 0;  // counts how deep we are in recursion
 
-int cutoff = 0; // how deep we'll allow the recursion to go
 int array_size;
+int cutoff = 32; //values 20,32,64,1024 have been tested. lower range is better!
 
 int main(int argc, char * argv[]){
-    if(argc != 3){
-        fprintf(stderr, "Please give the number of threads and array size. ex. for 12 threads and len 2^13./quicksort 12 8192");
+    if(argc < 3 || argc > 4){
+        fprintf(stderr, "Please give the number of threads, array size, and an optional cutoff. ex. for 12 threads and len 2^13 and cutoff 32 ./quicksort 12 8192 32");
         return EXIT_FAILURE;
     }
+    if(argc == 4) cutoff = atoi(argv[3]);
    
     int num_threads = atoi(argv[1]); //not super safe but ok for today
     array_size = atoi(argv[2]);
     
-    //double temp = log(array_size) / log(2);
-    //cutoff = (int)temp;
-    cutoff = 64;
     if(DEBUG) printf("Cutoff : %d\n", cutoff);    
 	
 	omp_set_num_threads(num_threads);
@@ -125,5 +121,4 @@ int medianOfThree(int *arr, int low, int high){
 
     swap(&arr[mid], &arr[high]);
     return high;
-
 }
